@@ -17,6 +17,7 @@
 package jupyter;
 
 import java.util.Map;
+import java.util.Optional;
 
 /**
  * Interpreter interface passed to {@link LineMagic} and {@link CellMagic}.
@@ -57,9 +58,9 @@ public interface Interpreter {
    * Gets a variable from the interpreter.
    *
    * @param name a variable name
-   * @return the value of the variable
+   * @return the value of the variable, or Optional.empty if the variable is not set
    */
-  Object getVariable(String name);
+  Optional<Object> getVariable(String name);
 
   /**
    * Runs a cell of code in the interpreter.
@@ -72,7 +73,7 @@ public interface Interpreter {
    * interpreted because interpreters calling magic functions may use different languages.
    *
    * @param cellText cell text for the interpreter to run, in the language of the interpreter
-   * @return the result object produced by the code block, or Optional.empty
+   * @return the result object produced by the code block, or Optional.empty if there is no result
    */
-  Object interpret(String cellText);
+  Optional<Object> interpret(String cellText);
 }

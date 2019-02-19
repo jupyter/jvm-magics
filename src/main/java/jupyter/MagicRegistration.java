@@ -18,6 +18,7 @@ package jupyter;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Optional;
 
 /**
  * Handles registration of {@link LineMagic} and {@link CellMagic} instances.
@@ -91,15 +92,16 @@ public class MagicRegistration {
     cellMagics.clear();
   }
 
-  private static class CellAsLineMagic implements LineMagic {
-    private final CellMagic cellMagic;
+  // Visible for testing
+  static class CellAsLineMagic implements LineMagic {
+    final CellMagic cellMagic;
 
     private CellAsLineMagic(CellMagic cellMagic) {
       this.cellMagic = cellMagic;
     }
 
     @Override
-    public Object call(String line, Interpreter interp) {
+    public Optional<Object> call(String line, Interpreter interp) {
       return cellMagic.call(line, null, interp);
     }
   }

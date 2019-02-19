@@ -16,6 +16,8 @@
 
 package jupyter;
 
+import java.util.Optional;
+
 /**
  * Represents a cell or a line-and-cell magic function.
  * <p>
@@ -42,7 +44,7 @@ public interface CellMagic {
    * @param line a String line from the magic invocation, always trimmed to remove whitespace
    * @param cell the String cell from the magic invocation, or null when called as line magic
    * @param interp an {@link Interpreter} used to create side-effects
-   * @return the result of this magic function call
+   * @return the result of this magic function call, or Optional.empty if there is no result
    */
-  Object call(String line, String cell, Interpreter interp);
+  Optional<Object> call(String line, String cell, Interpreter interp);
 }

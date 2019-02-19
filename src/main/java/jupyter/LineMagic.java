@@ -16,6 +16,8 @@
 
 package jupyter;
 
+import java.util.Optional;
+
 /**
  * Represents a line magic function.
  * <p>
@@ -32,7 +34,7 @@ public interface LineMagic {
    *
    * @param line a String line from the magic invocation, always trimmed to remove whitespace
    * @param interp an {@link Interpreter} used to create side-effects
-   * @return the result of this magic function call
+   * @return the result of this magic function call, or Optional.empty if there is no result
    */
-  Object call(String line, Interpreter interp);
+  Optional<Object> call(String line, Interpreter interp);
 }

@@ -16,7 +16,18 @@
 
 package jupyter;
 
+import java.util.Optional;
+
 public class Magics {
+  public static class MagicNotFoundException extends RuntimeException {
+    public MagicNotFoundException(String template, Object... args) {
+      super(String.format(template, args));
+    }
+  }
+
+  /**
+   * @return the JVM singleton registration instance.
+   */
   public static MagicRegistration registration() {
     return MagicRegistration.INSTANCE;
   }
@@ -68,10 +79,15 @@ public class Magics {
    * @param name the line magic name
    * @param line the invocation line
    * @param interp an interpreter for creating side-effects
-   * @return the result of the magic invocation
+   * @return the result of the magic invocation, or Optional.empty if there is no result
    */
-  public static Object callLineMagic(String name, String line, Interpreter interp) {
-    return registration().findLineMagic(name).call(line.trim(), interp);
+  public static Optional<Object> callLineMagic(String name, String line, Interpreter interp) {
+    LineMagic magic = registration().findLineMagic(name);
+    if (magic != null) {
+      return magic.call(line.trim(), interp);
+    }
+
+    throw new MagicNotFoundException("Unknown line magic function: %s", name);
   }
 
   /**
@@ -81,9 +97,14 @@ public class Magics {
    * @param line the invocation line
    * @param cell the cell
    * @param interp an interpreter for creating side-effects
-   * @return the result of the magic invocation
+   * @return the result of the magic invocation, or Optional.empty if there is no result
    */
   public static Object callCellMagic(String name, String line, String cell, Interpreter interp) {
-    return registration().findCellMagic(name).call(line.trim(), cell, interp);
+    CellMagic magic = registration().findCellMagic(name);
+    if (magic != null) {
+      return magic.call(line.trim(), cell, interp);
+    }
+
+    throw new MagicNotFoundException("Unknown cell magic function: %s", name);
   }
 }
