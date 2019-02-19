@@ -32,23 +32,55 @@ public class MagicRegistration {
   private final Map<String, LineMagic> lineMagics = new HashMap<>();
   private final Map<String, CellMagic> cellMagics = new HashMap<>();
 
+  /**
+   * Add a function that can be called as line magic or as cell magic.
+   * <p>
+   * When called as line magic, the cell will be null.
+   *
+   * @param name a String name for the magic function
+   * @param cellMagic a {@link CellMagic} instance
+   */
   public void addLineCellMagic(String name, CellMagic cellMagic) {
     cellMagics.put(name, cellMagic);
     lineMagics.put(name, new CellAsLineMagic(cellMagic));
   }
 
+  /**
+   * Add a function that can be called (only) as line magic.
+   *
+   * @param name a String name for the magic function
+   * @param lineMagic a {@link LineMagic} instance
+   */
   public void addLineMagic(String name, LineMagic lineMagic) {
     lineMagics.put(name, lineMagic);
   }
 
+  /**
+   * Add a function that can be called (only) as cell magic.
+   *
+   * @param name a String name for the magic function
+   * @param cellMagic a {@link CellMagic} instance
+   */
   public void addCellMagic(String name, CellMagic cellMagic) {
     cellMagics.put(name, cellMagic);
   }
 
+  /**
+   * Find by name a magic function that can be called as line magic.
+   *
+   * @param name a String name
+   * @return a {@link LineMagic} function
+   */
   public LineMagic findLineMagic(String name) {
     return lineMagics.get(name);
   }
 
+  /**
+   * Find by name a magic function that can be called as cell magic.
+   *
+   * @param name a String name
+   * @return a {@link CellMagic} function
+   */
   public CellMagic findCellMagic(String name) {
     return cellMagics.get(name);
   }

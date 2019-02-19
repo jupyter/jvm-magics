@@ -16,6 +16,33 @@
 
 package jupyter;
 
+/**
+ * Represents a cell or a line-and-cell magic function.
+ * <p>
+ * When registered using {@link Magics#registerCellMagic(String, CellMagic)}, a cell magic function
+ * can only be called using a line that starts with two % characters. For example:
+ * <pre>
+ *   %%sql -t
+ *   SELECT *
+ *   FROM users
+ *   LIMIT 100
+ * </pre>
+ * <p>
+ * The invocation line is always passed to cell magic and is trimmed to remove whitespace. When
+ * called as cell magic, the cell is passed unchanged.
+ * <p>
+ * When registered using {@link Magics#registerLineCellMagic(String, CellMagic)}, a cell magic
+ * function can be called either as line magic or as cell magic. When called as line magic, the
+ * cell text is set to null.
+ */
 public interface CellMagic {
+  /**
+   * Invokes the cell magic function.
+   *
+   * @param line a String line from the magic invocation, always trimmed to remove whitespace
+   * @param cell the String cell from the magic invocation, or null when called as line magic
+   * @param interp an {@link Interpreter} used to create side-effects
+   * @return the result of this magic function call
+   */
   Object call(String line, String cell, Interpreter interp);
 }

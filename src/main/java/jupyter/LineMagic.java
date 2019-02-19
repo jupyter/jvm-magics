@@ -16,6 +16,23 @@
 
 package jupyter;
 
+/**
+ * Represents a line magic function.
+ * <p>
+ * Line magics are called by name when a line starts with a single %. For example:
+ * <pre>
+ *   %sql SELECT * FROM users
+ * </pre>
+ * <p>
+ * The line passed to line magic is always trimmed to remove whitespace.
+ */
 public interface LineMagic {
+  /**
+   * Invokes the line magic function.
+   *
+   * @param line a String line from the magic invocation, always trimmed to remove whitespace
+   * @param interp an {@link Interpreter} used to create side-effects
+   * @return the result of this magic function call
+   */
   Object call(String line, Interpreter interp);
 }
