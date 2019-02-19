@@ -19,11 +19,6 @@ package jupyter;
 import java.util.Optional;
 
 public class Magics {
-  public static class MagicNotFoundException extends RuntimeException {
-    public MagicNotFoundException(String template, Object... args) {
-      super(String.format(template, args));
-    }
-  }
 
   /**
    * @return the JVM singleton registration instance.
@@ -99,7 +94,7 @@ public class Magics {
    * @param interp an interpreter for creating side-effects
    * @return the result of the magic invocation, or Optional.empty if there is no result
    */
-  public static Object callCellMagic(String name, String line, String cell, Interpreter interp) {
+  public static Optional<Object> callCellMagic(String name, String line, String cell, Interpreter interp) {
     CellMagic magic = registration().findCellMagic(name);
     if (magic != null) {
       return magic.call(line.trim(), cell, interp);

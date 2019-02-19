@@ -25,7 +25,7 @@ import java.util.Optional;
 public class TestRegistration {
   @After
   public void clear() {
-    MagicRegistration.INSTANCE.clear();
+    Magics.registration().clear();
   }
 
   @Test
